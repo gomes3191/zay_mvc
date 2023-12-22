@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Core;
 
 use App\Core\Logger\Logger;
@@ -8,7 +7,6 @@ use Exception;
 
 class App
 {
-
     protected static $registry = [];
 
     public static function bind($key, $value): void
@@ -19,8 +17,9 @@ class App
     public static function get($key)
     {
         if (!array_key_exists($key, static::$registry)) {
-            throw new Exception("No {$key} is bound in the container.");
+            throw new Exception(" {$key}, não está presente nas configurações");
         }
+
         return static::$registry[$key];
     }
 

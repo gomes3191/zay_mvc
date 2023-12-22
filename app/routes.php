@@ -4,12 +4,14 @@ use App\Core\App;
 
 //Se a opção de configuração de rotas de notação de matriz em config.php estiver definida como true, vamos usar o roteamento de notação de matriz.
 if (App::get('config')['options']['array_routing']) {
+
     $router->getArray([
-        '' => 'PagesController@home',
-        'about' => 'PagesController@about',
-        'contact' => 'PagesController@contact',
+        '' => 'IndexController@index',
+        'about' => 'IndexController@about',
+        'contact' => 'IndexController@contact',
 
         'register' => 'RegistersController@index',
+        'login' => 'AuthController@login',
 
         'users' => 'UsersController@index',
         'users/{page}' => 'UsersController@index',
@@ -25,9 +27,10 @@ if (App::get('config')['options']['array_routing']) {
     ]);
 
 } else {
-    $router->get('', 'PagesController@home');
-    $router->get('about', 'PagesController@about');
-    $router->get('contact', 'PagesController@contact');
+    $router->get('', 'IndexController@index');
+    $router->get('login', 'AuthController@login');
+    $router->get('about', 'IndexController@about');
+    $router->get('contact', 'IndexController@contact');
 
     $router->get('users', 'UsersController@index');
     $router->get('users/{page}', 'UsersController@index');

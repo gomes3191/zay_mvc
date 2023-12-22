@@ -1,10 +1,16 @@
 <?php
+
 /*
  * Autor: FAGA
  * O ponto de partida para a estrutura.
  */
-require '../vendor/autoload.php';
-require '../core/bootstrap.php';
+
+require_once '../app/Utility/ErrorControl.php';
+
+require_once '../vendor/autoload.php';
+
+require_once '../app/core/bootstrap.php';
+
 
 use App\Core\{Router, Request, App};
 

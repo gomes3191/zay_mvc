@@ -1,5 +1,6 @@
 <?php
 namespace App\Core;
+
 use Exception;
 class Router
 {
@@ -21,10 +22,10 @@ class Router
         $router = new static;
 
         require $file;
-        
+
         return $router;
     }
-    
+
     /*
      * Recebe a rota GET com base no URI e passa-a para o controlador.
      */
@@ -46,10 +47,11 @@ class Router
      * portanto não podemos nomear essa função obter mesmo que tenha um número diferente de parâmetros
      * do que a função get usada para roteamento sem anotação de matriz.
      */
-    public function getArray($routes) 
+    public function getArray($routes)
     {
         $this->routes['GET'] = $routes;
     }
+
     /*
      * Roteamento de notação de matriz recebe as rotas POST.
      * O PHP não suporta sobrecarga de função (também conhecida como sobrecarga de método em OOP),
@@ -58,32 +60,35 @@ class Router
     public function postArray($routes)
     {
         $this->routes['POST'] = $routes;
-    }  
+    }
 
     /*
      * Direciona o usuário para a rota com base no tipo de solicitação.
      */
-    public function direct($uri, $requestType)
-    {
+    public function direct($uri, $requestType) {
         if (array_key_exists($uri, $this->routes[$requestType])) {
-            return $this->callAction(
-                ...explode('@', $this->routes[$requestType][$uri])
-            );
+            return $this->callAction(...explode('@', $this->routes[$requestType][$uri]));
         }
 
         foreach ($this->routes[$requestType] as $key => $value) {
-            $pattern = preg_replace('#\(/\)#', '/?', $key);
+            $pattern = preg_replace('#\(/\)#','/?',$key);
+
             $pattern = "@^" . preg_replace('/{([\w\-]+)}/', '(?<$1>[\w\-]+)', $pattern) . "$@D";
+
             preg_match($pattern, $uri, $matches);
             array_shift($matches);
+
             if ($matches) {
                 $action = explode('@', $value);
-                return $this->callAction($action[0], $action[1], $matches);
+                return $this->callAction($action[0], $action[1],
+                    $matches
+                );
             }
         }
 
-        throw new Exception('No route defined for this URI.');
+        throw new Exception("a rota '{$uri}' requisitada não foi encontrada, ", 100);
     }
+
     /*
      * Chama o controlador para uma ação.
      */
@@ -95,7 +100,7 @@ class Router
 
         if (!method_exists($controller, $action))
         {
-            throw new Exception("{$controller} does not respond to the {$action} action.");
+            throw new Exception("{$controller} não responde ao {$action} ação.");
         }
 
         return $controller->$action($vars);

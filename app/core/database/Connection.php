@@ -19,7 +19,7 @@ class Connection
             );
         }
         catch (PDOException $e) {
-            App::logError('There was a PDO Exception. Details: ' . $e);
+            App::logError('Houve uma exceção de PDO. Detalhes: ' . $e);
             if (App::get('config')['options']['debug']) {
                 return view('error', ['error' => $e->getMessage()]);
             }

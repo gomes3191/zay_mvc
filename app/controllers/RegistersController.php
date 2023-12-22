@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Register;
+use App\Models;
 
 class RegistersController
 {
@@ -12,7 +12,7 @@ class RegistersController
     public function index($vars = [])
     {
         $title = 'Adicionar usuário - ';
-        $user = new Register();
+        $user = new Models\Register();
         $count = $user->count();
         $limit = 5;
         $page = $vars['page'] ?? 1;

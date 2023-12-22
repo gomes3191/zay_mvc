@@ -16,6 +16,7 @@ function view($name, $data = [])
     extract($data);
     return require "../app/views/{$name}.view.php";
 }
+
 /*
  * Define o (dark mode) ou (light mode),
  * retorna o (dark mode) class string
